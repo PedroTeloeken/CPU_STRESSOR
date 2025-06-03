@@ -4,6 +4,17 @@
  */
 package com.mycompany.cpustressor2;
 
+import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
+import javax.swing.JCheckBox;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JRadioButton;
+
 /**
  *
  * @author pedro
@@ -13,9 +24,25 @@ public class MainScreen extends javax.swing.JFrame {
     /**
      * Creates new form MainScreen
      */
-    public MainScreen() {
-        initComponents();
-    }
+   private JLabel gifLabel;
+
+   public MainScreen() {
+    initComponents();
+
+    getContentPane().setBackground(Color.RED);
+
+    ImageIcon gifIcon = new ImageIcon(getClass().getResource("/gifs/flame.gif"));
+    gifLabel = new JLabel(gifIcon);
+    gifLabel.setBounds(100, 100, gifIcon.getIconWidth(), gifIcon.getIconHeight());
+    gifLabel.setVisible(false); // <- começa invisível
+
+    getContentPane().setLayout(null);
+    getContentPane().add(gifLabel);
+
+    mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+    adicionarCheckboxesDinamicamente();
+}
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -26,9 +53,28 @@ public class MainScreen extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
+        mainPanel = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 51, 51));
+        setForeground(java.awt.Color.red);
+
+        mainPanel.setBackground(new java.awt.Color(255, 51, 51));
+        mainPanel.setBorder(javax.swing.BorderFactory.createCompoundBorder());
+        mainPanel.setForeground(new java.awt.Color(255, 51, 51));
+
+        javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
+        mainPanel.setLayout(mainPanelLayout);
+        mainPanelLayout.setHorizontalGroup(
+            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 341, Short.MAX_VALUE)
+        );
+        mainPanelLayout.setVerticalGroup(
+            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 233, Short.MAX_VALUE)
+        );
 
         jButton1.setText("Rodando");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -42,30 +88,52 @@ public class MainScreen extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(157, 157, 157)
-                .addComponent(jButton1)
-                .addContainerGap(165, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(149, 149, 149)
+                        .addComponent(jButton1)))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(113, 113, 113)
+                .addGap(30, 30, 30)
+                .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1)
-                .addContainerGap(164, Short.MAX_VALUE))
+                .addContainerGap(8, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+ 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        gifLabel.setVisible(true);
         CpuStress cpu = new CpuStress();
 
         System.out.println("Número de núcleos desse PC é de " + cpu.getNumbersOfGpu());
+        List<Integer> selecionados = new ArrayList<>();
+
+    for (JCheckBox checkbox : checkboxes) {
+        if (checkbox.isSelected()) {
+            selecionados.add(Integer.parseInt(checkbox.getActionCommand()));
+        }
+    }
+
+    if (selecionados.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Selecione pelo menos um núcleo.");
+        gifLabel.setVisible(false);
+        return;
+    }
         
-        int[] cores = {0 , 1};
+        int[] cores = selecionados.stream().mapToInt(i -> i).toArray();
         cpu.stressCores(cores, 20);
 
         System.out.println("Terminou");
+      
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -102,8 +170,25 @@ public class MainScreen extends javax.swing.JFrame {
             }
         });
     }
+private java.util.List<JCheckBox> checkboxes = new ArrayList<>();
+
+private void adicionarCheckboxesDinamicamente() {
+    int numNucleos = Runtime.getRuntime().availableProcessors();
+
+    for (int i = 0; i < numNucleos; i++) {
+        JCheckBox checkbox = new JCheckBox("Núcleo " + i);
+        checkbox.setActionCommand(String.valueOf(i));
+        checkboxes.add(checkbox);
+        mainPanel.add(checkbox); // ou panelRadios, se for outro nome
+    }
+
+    mainPanel.revalidate();
+    mainPanel.repaint();
+}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jButton1;
+    private javax.swing.JPanel mainPanel;
     // End of variables declaration//GEN-END:variables
 }

@@ -10,7 +10,8 @@ package com.mycompany.cpustressor2;
  */
 public class CpuStress {
     static {
-       System.load("C:\\Users\\pedro\\Documents\\NetBeansProjects\\CpuStressor2\\src\\main\\java\\com\\mycompany\\cpustressor2\\C\\cpuStress.dll");
+        //System.load("C:\\Users\\pedro\\Documents\\NetBeansProjects\\CpuStressor2\\src\\main\\java\\com\\mycompany\\cpustressor2\\C\\cpuStress.dll");
+        System.load("C:\\Users\\helenas\\Documents\\GitHub\\CPU_STRESSOR\\CpuStressor2\\src\\main\\java\\com\\mycompany\\cpustressor2\\C\\cpuStress.dll");
         //System.load("C:\\Users\\helenas\\Documents\\GitHub\\CalculadoraC\\c\\libcalculadora.dll");
     }
 
