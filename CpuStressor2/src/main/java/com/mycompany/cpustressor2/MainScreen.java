@@ -5,15 +5,16 @@
 package com.mycompany.cpustressor2;
 
 import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.BoxLayout;
-import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JRadioButton;
+import javax.swing.JPanel;
 
 /**
  *
@@ -69,11 +70,11 @@ public class MainScreen extends javax.swing.JFrame {
         mainPanel.setLayout(mainPanelLayout);
         mainPanelLayout.setHorizontalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 341, Short.MAX_VALUE)
+            .addGap(0, 427, Short.MAX_VALUE)
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 233, Short.MAX_VALUE)
+            .addGap(0, 354, Short.MAX_VALUE)
         );
 
         jButton1.setText("Rodando");
@@ -130,7 +131,7 @@ public class MainScreen extends javax.swing.JFrame {
     }
         
         int[] cores = selecionados.stream().mapToInt(i -> i).toArray();
-        cpu.stressCores(cores, 20);
+        cpu.stressCores(cores, 20, 15);
 
         System.out.println("Terminou");
       
@@ -175,16 +176,25 @@ private java.util.List<JCheckBox> checkboxes = new ArrayList<>();
 private void adicionarCheckboxesDinamicamente() {
     int numNucleos = Runtime.getRuntime().availableProcessors();
 
+    // Painel interno com GridLayout: 4 linhas por coluna, com 5px de espaçamento
+    JPanel gridPanel = new JPanel(new GridLayout(4, 0, 5, 5));
+
     for (int i = 0; i < numNucleos; i++) {
         JCheckBox checkbox = new JCheckBox("Núcleo " + i);
         checkbox.setActionCommand(String.valueOf(i));
         checkboxes.add(checkbox);
-        mainPanel.add(checkbox); // ou panelRadios, se for outro nome
+        gridPanel.add(checkbox);
     }
+
+    // Define o layout externo como FlowLayout para evitar esticar os checkboxes
+    mainPanel.setLayout(new FlowLayout(FlowLayout.LEFT)); // ou CENTER
+    mainPanel.removeAll(); // limpa checkboxes antigos, se houver
+    mainPanel.add(gridPanel);
 
     mainPanel.revalidate();
     mainPanel.repaint();
 }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;

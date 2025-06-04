@@ -10,6 +10,7 @@
 typedef struct {
     int duration;
     int core;
+    int priority;
 } ThreadParams;
 
 //Declara a função que será executada pela thread do Windows (WINAPI com LPVOID como parâmetro genérico).
@@ -44,7 +45,7 @@ DWORD WINAPI stress_cpu(LPVOID lpParam) {
 }
 
 // JNI para chamar a função via Java
-JNIEXPORT jint JNICALL Java_com_mycompany_cpustressor2_CpuStress_stressCores(JNIEnv* env, jobject obj, jintArray cores, jint duration) {
+JNIEXPORT jint JNICALL Java_com_mycompany_cpustressor2_CpuStress_stressCores(JNIEnv* env, jobject obj, jintArray cores, jint duration, jint priority) {
     // Obtém o tamanho do array de núcleos
     jsize length = (*env)->GetArrayLength(env, cores);
     jint* coreArray = (*env)->GetIntArrayElements(env, cores, NULL);
@@ -55,8 +56,10 @@ JNIEXPORT jint JNICALL Java_com_mycompany_cpustressor2_CpuStress_stressCores(JNI
         ThreadParams* params = malloc(sizeof(ThreadParams));
         params->duration = duration;
         params->core = coreArray[i];
+        params->priority = priority;
 
         threads[i] = CreateThread(NULL, 0, stress_cpu, params, 0, NULL);
+        SetThreadPriority(threads[i], params->priority);
     }
 
     // Espera todas as threads terminarem

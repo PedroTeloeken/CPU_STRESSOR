@@ -10,10 +10,10 @@ extern "C" {
 /*
  * Class:     com_mycompany_cpustressor2_CpuStress
  * Method:    stressCores
- * Signature: ([II)I
+ * Signature: ([III)I
  */
 JNIEXPORT jint JNICALL Java_com_mycompany_cpustressor2_CpuStress_stressCores
-  (JNIEnv *, jobject, jintArray, jint);
+  (JNIEnv *, jobject, jintArray, jint, jint);
 
 /*
  * Class:     com_mycompany_cpustressor2_CpuStress
