@@ -41,6 +41,7 @@ public MainScreen() {
     getContentPane().add(gifLabel);
 
     mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+    rbPrioridadeMed.setSelected(true);
     
     labelDuracao.setText("Duração (em segundos):");
    
@@ -131,12 +132,15 @@ public MainScreen() {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(textDuracao, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButton1)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(labelPrioridade, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(rbPrioridadeMin)))
+                                .addComponent(rbPrioridadeMin))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(169, 169, 169)
+                                .addComponent(jButton1)
+                                .addGap(0, 0, Short.MAX_VALUE)))
                         .addGap(18, 18, 18)
                         .addComponent(rbPrioridadeMed)
                         .addGap(18, 18, 18)
@@ -190,9 +194,20 @@ public MainScreen() {
         gifLabel.setVisible(false);
         return;
     }
-        int priority = Thread.MAX_PRIORITY;
+    
+    
+    int priority = 5;
+    if(rbPrioridadeMaz.isSelected()){
+         priority = 10;
+    }else if(rbPrioridadeMin.isSelected()){
+       priority = 1;
+    }
+    
+    priority = 15;
+        
+        int temp = Integer.parseInt(textDuracao.getText());
         int[] cores = selecionados.stream().mapToInt(i -> i).toArray();
-        cpu.stressCores(cores, 20, priority);
+        cpu.stressCores(cores, temp, priority);
 
         System.out.println("Terminou");
       
