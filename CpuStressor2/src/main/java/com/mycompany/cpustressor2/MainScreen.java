@@ -5,6 +5,7 @@
 package com.mycompany.cpustressor2;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ public class MainScreen extends javax.swing.JFrame {
      */
    private JLabel gifLabel;
 
-   public MainScreen() {
+public MainScreen() {
     initComponents();
 
     getContentPane().setBackground(Color.RED);
@@ -35,12 +36,15 @@ public class MainScreen extends javax.swing.JFrame {
     ImageIcon gifIcon = new ImageIcon(getClass().getResource("/gifs/flame.gif"));
     gifLabel = new JLabel(gifIcon);
     gifLabel.setBounds(100, 100, gifIcon.getIconWidth(), gifIcon.getIconHeight());
-    gifLabel.setVisible(false); // <- começa invisível
-
+    gifLabel.setVisible(false);
     getContentPane().setLayout(null);
     getContentPane().add(gifLabel);
 
     mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+    
+    labelDuracao.setText("Duração (em segundos):");
+   
+
     adicionarCheckboxesDinamicamente();
 }
 
@@ -57,6 +61,12 @@ public class MainScreen extends javax.swing.JFrame {
         buttonGroup1 = new javax.swing.ButtonGroup();
         mainPanel = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
+        labelDuracao = new javax.swing.JLabel();
+        textDuracao = new javax.swing.JTextField();
+        labelPrioridade = new javax.swing.JLabel();
+        rbPrioridadeMin = new javax.swing.JRadioButton();
+        rbPrioridadeMed = new javax.swing.JRadioButton();
+        rbPrioridadeMaz = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 51, 51));
@@ -70,42 +80,87 @@ public class MainScreen extends javax.swing.JFrame {
         mainPanel.setLayout(mainPanelLayout);
         mainPanelLayout.setHorizontalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 427, Short.MAX_VALUE)
+            .addGap(0, 425, Short.MAX_VALUE)
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 354, Short.MAX_VALUE)
+            .addGap(0, 159, Short.MAX_VALUE)
         );
 
-        jButton1.setText("Rodando");
+        jButton1.setText("Burn");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
+        labelDuracao.setText("jLabel1");
+
+        textDuracao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                textDuracaoActionPerformed(evt);
+            }
+        });
+
+        labelPrioridade.setText("Prioridade");
+
+        buttonGroup1.add(rbPrioridadeMin);
+        rbPrioridadeMin.setText("Mínima");
+
+        buttonGroup1.add(rbPrioridadeMed);
+        rbPrioridadeMed.setText("Normal");
+        rbPrioridadeMed.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbPrioridadeMedActionPerformed(evt);
+            }
+        });
+
+        buttonGroup1.add(rbPrioridadeMaz);
+        rbPrioridadeMaz.setText("Máxima");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(25, 25, 25)
-                        .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(149, 149, 149)
-                        .addComponent(jButton1)))
-                .addContainerGap(29, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(33, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(labelDuracao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(textDuracao, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jButton1)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(labelPrioridade, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(rbPrioridadeMin)))
+                        .addGap(18, 18, 18)
+                        .addComponent(rbPrioridadeMed)
+                        .addGap(18, 18, 18)
+                        .addComponent(rbPrioridadeMaz)))
+                .addGap(32, 32, 32))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(30, 30, 30)
+                .addContainerGap(28, Short.MAX_VALUE)
                 .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelDuracao)
+                    .addComponent(textDuracao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelPrioridade)
+                    .addComponent(rbPrioridadeMin)
+                    .addComponent(rbPrioridadeMed)
+                    .addComponent(rbPrioridadeMaz))
+                .addGap(18, 18, 18)
                 .addComponent(jButton1)
-                .addContainerGap(8, Short.MAX_VALUE))
+                .addGap(20, 20, 20))
         );
 
         pack();
@@ -129,13 +184,27 @@ public class MainScreen extends javax.swing.JFrame {
         gifLabel.setVisible(false);
         return;
     }
-        
+    
+    if (textDuracao.getText().isEmpty()){
+        JOptionPane.showMessageDialog(this, "Selecione a duração.");
+        gifLabel.setVisible(false);
+        return;
+    }
+        int priority = Thread.MAX_PRIORITY;
         int[] cores = selecionados.stream().mapToInt(i -> i).toArray();
-        cpu.stressCores(cores, 20, 15);
+        cpu.stressCores(cores, 20, priority);
 
         System.out.println("Terminou");
       
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void textDuracaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textDuracaoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_textDuracaoActionPerformed
+
+    private void rbPrioridadeMedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbPrioridadeMedActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rbPrioridadeMedActionPerformed
 
     /**
      * @param args the command line arguments
@@ -177,7 +246,7 @@ private void adicionarCheckboxesDinamicamente() {
     int numNucleos = Runtime.getRuntime().availableProcessors();
 
     // Painel interno com GridLayout: 4 linhas por coluna, com 5px de espaçamento
-    JPanel gridPanel = new JPanel(new GridLayout(4, 0, 5, 5));
+    JPanel gridPanel = new JPanel(new GridLayout(4, 3, 95, 10));
 
     for (int i = 0; i < numNucleos; i++) {
         JCheckBox checkbox = new JCheckBox("Núcleo " + i);
@@ -199,6 +268,12 @@ private void adicionarCheckboxesDinamicamente() {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jButton1;
+    private javax.swing.JLabel labelDuracao;
+    private javax.swing.JLabel labelPrioridade;
     private javax.swing.JPanel mainPanel;
+    private javax.swing.JRadioButton rbPrioridadeMaz;
+    private javax.swing.JRadioButton rbPrioridadeMed;
+    private javax.swing.JRadioButton rbPrioridadeMin;
+    private javax.swing.JTextField textDuracao;
     // End of variables declaration//GEN-END:variables
 }
