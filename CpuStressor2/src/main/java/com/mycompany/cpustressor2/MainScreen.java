@@ -6,6 +6,7 @@ package com.mycompany.cpustressor2;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.util.ArrayList;
@@ -81,7 +82,7 @@ public MainScreen() {
         mainPanel.setLayout(mainPanelLayout);
         mainPanelLayout.setHorizontalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 454, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -124,28 +125,27 @@ public MainScreen() {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(42, Short.MAX_VALUE)
+                .addContainerGap(71, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                    .addComponent(labelDuracao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(textDuracao, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                    .addComponent(labelPrioridade, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 94, Short.MAX_VALUE)
-                                    .addComponent(rbPrioridadeMin)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(rbPrioridadeMed)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(rbPrioridadeMaz))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(labelDuracao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(textDuracao, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(labelPrioridade, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 94, Short.MAX_VALUE)
+                                .addComponent(rbPrioridadeMin)
+                                .addGap(18, 18, 18)
+                                .addComponent(rbPrioridadeMed)
+                                .addGap(18, 18, 18)
+                                .addComponent(rbPrioridadeMaz)))
                         .addGap(32, 32, 32))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jButton1)
                         .addGap(219, 219, 219))))
+            .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -179,7 +179,7 @@ public MainScreen() {
 
     for (JCheckBox checkbox : checkboxes) {
         if (checkbox.isSelected()) {
-            selecionados.add(Integer.parseInt(checkbox.getActionCommand()));
+            selecionados.add(Integer.valueOf(checkbox.getActionCommand()));
         }
     }
 
@@ -195,22 +195,21 @@ public MainScreen() {
         return;
     }
     
-    
     int priority = 5;
     if(rbPrioridadeMaz.isSelected()){
-         priority = 10;
+         priority = 99;
     }else if(rbPrioridadeMin.isSelected()){
        priority = 1;
     }
-    
-    priority = 15;
-        
-        int temp = Integer.parseInt(textDuracao.getText());
-        int[] cores = selecionados.stream().mapToInt(i -> i).toArray();
-        cpu.stressCores(cores, temp, priority);
-
-        System.out.println("Terminou");
-      
+   
+        try {
+            int temp = Integer.parseInt(textDuracao.getText());
+            int[] cores = selecionados.stream().mapToInt(i -> i).toArray();
+            cpu.stressCores(cores, temp, priority);
+            System.out.println("Terminou");
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Duração formatada incorretamente");
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void textDuracaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textDuracaoActionPerformed
