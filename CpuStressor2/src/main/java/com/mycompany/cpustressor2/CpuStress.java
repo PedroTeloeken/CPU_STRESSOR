@@ -12,7 +12,7 @@ import java.io.OutputStream;
 
 /**
  *
- * @author pedro
+ * @author pedro teloeken
  */
 
 public class CpuStress {
